@@ -22,5 +22,5 @@ Early exploration and idea testing.
 
 ## Next step
 
-Connect with Vojta to define questions
-Connect with J. and Z. Musil to findout availability and structure of a waterbird data
+* Connect with Vojta to define questions
+* Connect with J. and Z. Musil to findout availability and structure of a waterbird data
