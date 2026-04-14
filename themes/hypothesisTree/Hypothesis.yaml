@@ -1,0 +1,303 @@
+# =============================================================================
+# HYPOTHESIS TREE — Open Science Schema v0.1
+# =============================================================================
+# Purpose:
+#   An open, collaborative, language-agnostic registry of scientific and
+#   personal hypotheses. Anyone can contribute. No idea protection.
+#   Designed for future tooling: journal clubs, scoring engines, gap analysis.
+#
+# License: CC0 1.0 Universal (Public Domain)
+# Repository: [https://github.com/F1uviati1is/ichthyOrnis-intersection/tree/main/themes/hypothesisTree]
+# Schema version: 0.1
+# Maintainer: Boris
+# Last updated: 2026-04-14
+#
+# CONTRIBUTING:
+#   - Add new hypotheses following the template at the bottom of this file
+#   - Use next available H-ID (check highest existing ID first)
+#   - Language: write claim in your native language, add `claim_en` if possible
+#   - Submit via pull request; discussion happens in PR comments
+# =============================================================================
+
+schema_version: "0.1"
+
+# -----------------------------------------------------------------------------
+# CONTROLLED VOCABULARIES
+# (use only these values in the corresponding fields)
+# -----------------------------------------------------------------------------
+
+_vocab:
+  confidence:   [speculative, low, medium, high, established]
+  status:       [open, supported, challenged, rejected, merged]
+  #   open      = active working hypothesis, no strong verdict yet
+  #   supported = weight of evidence favours the claim
+  #   challenged = significant counter-evidence exists, debate ongoing
+  #   rejected  = evidence clearly falsifies the claim
+  #   merged    = absorbed into a better/broader hypothesis (see notes)
+  relation_types: [refines, contradicts, supports, requires, alternative_to]
+  domains:
+    - ecology
+    - conservation
+    - ornithology
+    - ichthyology
+    - citizen_science
+    - climate
+    - society
+    - personal_worldview
+    - methodology
+
+# =============================================================================
+# HYPOTHESES
+# =============================================================================
+
+hypotheses:
+
+  # ---------------------------------------------------------------------------
+  - id: H001
+    domain: citizen_science
+    subdomain: data_quality
+
+    # Write claim in original language; add claim_en for discoverability
+    lang: cs
+    claim: >
+      Zvýšený zájem o přírodu se zvyšujícím se povědomím klimatické krize
+      a krize biodiverzity zvyšuje četnost zadávání chybných pozorování druhů ve veřejných databázích.
+    claim_en: >
+      Growing public interest in nature, driven by rising awareness of the
+      climate and biodiversity crises, increases the rate of incorrectly
+      submitted species observations.
+
+    confidence: medium
+    status: open
+
+    # Tree position
+    parent_id: null       # top-level claim
+    child_ids: []         # fill in when sub-hypotheses are added
+
+    # Typed links to other hypotheses (richer than parent/child alone)
+    relations: []
+    # example:
+    # relations:
+    #   - target_id: H005
+    #     type: requires
+    #     note: "Assumes citizen science platforms do not improve verification speed"
+
+    evidence_for:
+      - >
+        Rapid growth of iNaturalist and similar platforms correlates with
+        a documented increase in unverified or misidentified records
+        (general observation, source needed).
+      - >
+        New users with limited taxonomic training submit proportionally more
+        records during high-media-coverage biodiversity events.
+
+    evidence_against:
+      - >
+        Community verification features (e.g. iNaturalist AI suggestions,
+        expert review queues) may offset error rate increases.
+      - >
+        More observers also means more legitimate rare species records
+        previously missed — net data quality effect unclear.
+
+    gaps:
+      - >
+        No longitudinal analysis of error rate per user cohort on Czech
+        platforms (e.g. BioLib, Naturalist.cz) over the 2015–2025 period.
+      - >
+        Unclear whether "error" should include misidentification only, or
+        also positional/date errors and duplicates.
+      - >
+        Confounding factor: platform UX improvements over time may mask
+        the hypothesised trend.
+
+    tags: [citizen_science, data_quality, biodiversity_crisis, climate_awareness, species_records]
+    contributors: [boris]
+    added: 2026-04-14
+    notes: >
+      Personally observed pattern during data cleaning workflows.
+      May be worth testing with a simple before/after analysis on
+      open Czech occurrence datasets (GBIF download).
+
+  # ---------------------------------------------------------------------------
+  - id: H002
+    domain: ornithology
+    subdomain: community_composition
+
+    lang: en
+    claim: >
+      The bird community at the southeastern edge of the Vysočina Highland
+      (Czech Republic) has undergone significant compositional change driven
+      by two interacting factors: (1) bark beetle calamity-driven removal of
+      spruce stands growing at the limit of their climatic niche, and
+      (2) range expansion of thermophilous species into newly suitable habitat
+      facilitated by global warming.
+    claim_en: null   # already in English
+
+    confidence: speculative
+    status: open
+
+    parent_id: null
+    child_ids: [H003, H004]   # see sub-hypotheses below
+
+    relations: []
+
+    evidence_for:
+      - >
+        Bark beetle (Ips typographus) calamity in Central Europe post-2017
+        has transformed large areas of monoculture spruce forest, particularly
+        stands at lower elevations outside the species' optimal range.
+      - >
+        Range expansions of thermophilous bird species (e.g. Oriolus oriolus,
+        Sylvia nisoria, raptors) documented across Central Europe in recent decades.
+      - >
+        Southeastern Vysočina represents a transitional zone (highland–lowland
+        ecotone) where both mechanisms are plausible simultaneously.
+
+    evidence_against:
+      - >
+        Alternative driver: agricultural intensification in adjacent lowlands
+        may be the primary force reshaping edge-zone communities independent
+        of forest change.
+      - >
+        Post-calamity successional habitat (young growth, clearcuts) may
+        favour some species while excluding others — net community shift
+        direction uncertain without survey data.
+
+    gaps:
+      - >
+        No long-term bird atlas data specifically for the SE Vysočina edge
+        zone at fine enough resolution to detect community-level shift.
+      - >
+        The two proposed drivers are not yet disentangled — a site with
+        both bark beetle damage and warming signal cannot attribute change
+        to either cause without controls.
+      - >
+        Definition of "southeastern edge" needs spatial delimitation
+        (suggest KFME grid squares or polygon) before testable prediction
+        can be formulated.
+
+    tags: [ornithology, vysočina, bark_beetle, climate_change, range_expansion, bird_community, forest_succession]
+    contributors: [boris]
+    added: 2026-04-14
+    notes: >
+      Composite hypothesis — probably best split into H003 and H004
+      and tested independently before combining into a causal interaction model.
+
+  # ---------------------------------------------------------------------------
+  # Sub-hypothesis: bark beetle driver alone
+  - id: H003
+    domain: ornithology
+    subdomain: forest_birds
+
+    lang: en
+    claim: >
+      Bark beetle calamity at SE Vysočina caused a net decline of
+      spruce-specialist bird species (e.g. Regulus regulus, Loxia curvirostra,
+      Picoides tridactylus) and an increase in open-habitat and early-succession
+      species within one decade of canopy loss.
+
+    confidence: low
+    status: open
+
+    parent_id: H002
+    child_ids: []
+    relations:
+      - target_id: H004
+        type: alternative_to
+        note: >
+          H003 and H004 are not mutually exclusive but can be tested
+          independently; together they constitute H002.
+
+    evidence_for:
+      - >
+        Known habitat specialisation of spruce-associated species makes
+        a negative response to mass spruce loss mechanistically plausible.
+
+    evidence_against: []
+
+    gaps:
+      - "Pre-calamity baseline bird survey data for this specific area."
+      - "Post-calamity monitoring data (2020–present)."
+
+    tags: [bark_beetle, spruce, forest_birds, succession, vysočina]
+    contributors: [boris]
+    added: 2026-04-14
+    notes: null
+
+  # ---------------------------------------------------------------------------
+  # Sub-hypothesis: warming/range expansion driver alone
+  - id: H004
+    domain: ornithology
+    subdomain: climate_biogeography
+
+    lang: en
+    claim: >
+      Global warming has enabled thermophilous bird species to colonise
+      the SE Vysočina edge zone since approximately 2000, independent of
+      bark beetle forest disturbance.
+
+    confidence: low
+    status: open
+
+    parent_id: H002
+    child_ids: []
+    relations:
+      - target_id: H003
+        type: alternative_to
+        note: "See H003 note."
+
+    evidence_for:
+      - >
+        Regional temperature increase of ~1.5°C since 1990 documented
+        for Czech highlands (ČHMÚ data).
+
+    evidence_against:
+      - >
+        Vysočina elevation (500–800 m) may still act as barrier for
+        many lowland thermophiles despite warming trend.
+
+    gaps:
+      - >
+        Species distribution modelling (SDM) for candidate thermophilous
+        species specifically calibrated to Vysočina conditions not available.
+
+    tags: [climate_change, range_expansion, thermophilous_species, vysočina, biogeography]
+    contributors: [boris]
+    added: 2026-04-14
+    notes: null
+
+
+# =============================================================================
+# TEMPLATE — copy this block to add a new hypothesis
+# =============================================================================
+#
+# - id: H00X                        # next available ID
+#   domain: ecology                 # see _vocab.domains
+#   subdomain: optional_freetext
+#
+#   lang: en                        # ISO 639-1 code
+#   claim: >
+#     Your hypothesis statement here.
+#   claim_en: >
+#     English translation if claim is not in English. Set null otherwise.
+#
+#   confidence: speculative         # see _vocab.confidence
+#   status: open                    # see _vocab.status
+#
+#   parent_id: null                 # H-ID of broader hypothesis, or null
+#   child_ids: []                   # list of more specific sub-hypotheses
+#
+#   relations: []
+#   # - target_id: H00X
+#   #   type: contradicts           # see _vocab.relation_types
+#   #   note: "Brief explanation."
+#
+#   evidence_for: []
+#   evidence_against: []
+#
+#   gaps: []
+#
+#   tags: []
+#   contributors: [your_name]
+#   added: YYYY-MM-DD
+#   notes: null
